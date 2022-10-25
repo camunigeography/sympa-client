@@ -1,0 +1,26 @@
+<?php
+
+# Example to update the list membership
+
+
+# Connection credentials
+$email = 'webmaster@example.com';
+$password = 'my_password';
+$soapServer = 'https://lists.example.com/sympa';
+
+# List identity
+$listname = 'my-list';	// For e.g. my-list@lists.example.com';
+
+# Users, as e-mail => visible name
+$users = array (
+	'foo.bar@example.com' => 'Foo Bar',
+	'bar.foo@example.com' => 'Bar Foo',
+);
+
+
+# Perform the update
+$sympaClient = new sympaClient ($email, $password, $soapServer);
+$html = $sympaClient->_updateMembers ($listname, $users);
+echo $html;
+
+?>
