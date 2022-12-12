@@ -36,7 +36,7 @@ class sympaClient
 		try {
 			$this->md5Token = $this->connection->login ($email, $password);
 		} catch (SoapFault $e) {
-			$errorString = $e->faultstring . ': ' . $e->detail;
+			$errorString = $e->faultstring . (isSet ($e->detail) ? ': ' . $e->detail : '');
 			$this->errors[] = $errorString;
 			echo "\n" . '<p class="warning">' . $errorString . '</p>';
 			return false;
