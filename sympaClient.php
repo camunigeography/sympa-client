@@ -20,6 +20,7 @@ class sympaClient
 	private $email;
 	private $md5Token;
 	private $errors = array ();
+	private $sleepSeconds = 5;
 	
 	
 	# Constructor
@@ -258,6 +259,7 @@ class sympaClient
 		#!# Use ->review() internally
 		$parameters = array ($listname);
 		$currentEmails = $this->getData ('review', $parameters, false, $errorString /* returned by reference */);
+		sleep ($this->sleepSeconds);
 		if ($errorString) {
 			$html = "\n" . '<p class="warning">' . $errorString . '</p>';
 			return $html;
@@ -277,6 +279,7 @@ class sympaClient
 		}
 		
 		# Confirm list
+		sleep ($this->sleepSeconds);
 		$html .= "\n<p>The list of members is now:</p>";
 		$html .= $this->review ($listname);
 		
