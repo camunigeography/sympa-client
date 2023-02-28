@@ -53,6 +53,13 @@ class sympaClient
 	}
 	
 	
+	# Setter for sleep seconds
+	public function setSleepSeconds ($sleepSeconds)
+	{
+		$this->sleepSeconds = $sleepSeconds;
+	}
+	
+	
 	
 	# Function to get data
 	private function getData ($function, $parameters = array (), $isSingular = false, &$errorString = false)
