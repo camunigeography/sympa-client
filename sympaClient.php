@@ -24,12 +24,13 @@ class sympaClient
 	
 	
 	# Constructor
-	public function __construct ($soapServer, $email, $password, $baseUrl = './', $sympaDomainInScope = false /* e.g. '@example.com' */)
+	public function __construct ($soapServer, $email, $password, $baseUrl = './', $sympaDomainInScope = false /* e.g. '@example.com' */, $addNamesSuffix = '[Auto-maintained]')
 	{
 		# Register properties
 		$this->email = $email;
 		$this->baseUrl = $baseUrl;
 		$this->sympaDomainInScope = $sympaDomainInScope;
+		$this->addNamesSuffix = $addNamesSuffix;
 		
 		# Create the client
 		$this->connection = new SoapClient ($soapServer);
@@ -185,7 +186,7 @@ class sympaClient
 	public function add ($listname, $email, $gecos /* name */ = false, $quiet = false)
 	{
 		# Get the data
-		$parameters = array ($listname, $email, $gecos, $quiet);
+		$parameters = array ($listname, $email, $gecos . ($gecos ? ' ' . $this->addNamesSuffix : ''), $quiet);
 		$result = $this->getData (__FUNCTION__, $parameters);
 		
 		# End if none
