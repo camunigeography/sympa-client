@@ -164,17 +164,31 @@ class sympaClient
 			return $html;
 		}
 		
-		# Attach names, if provided; the Sympa API itself does not return the name strings, but we already have most of them anyway
+		# Render the list as a table if there are names provided; the Sympa API itself does not return the name strings, but we already have most of them anyway
 		if ($names) {
+			$table = array ();
 			foreach ($members as $index => $email) {
+				$forename = false;
+				$surname = false;
 				if (isSet ($names[$email])) {
-					$members[$index] = $names[$email] . ' <' . $email . '>';
+					$nameComponents = preg_split ('/\s+/', trim ($names[$email]));
+					$surname = array_pop ($nameComponents);
+					$forename = implode (' ', $nameComponents);
 				}
+				$table[] = array (
+					'username' => (str_ends_with ($email, $this->sympaDomainInScope) ? str_replace ($this->sympaDomainInScope, '', $email) : ''),
+					'forename' => $forename,
+					'surname' => $surname,
+					'email' => $email,
+				);
 			}
+			$tableHeadingSubstitutions = array ('username' => 'Username', 'forename' => 'Forename', 'surname' => 'Surname', 'email' => 'E-mail', );
+			$html = application::htmlTable ($table, $tableHeadingSubstitutions, 'lines compressed peopleemailslist sortable" id="sortable', $keyAsFirstColumn = false, false, false, false, $addCellClasses = true);
+			
+		# If no names, just show simple bullet-point list
+		} else {
+			$html = application::htmlUl ($members, 0, NULL, true, $sanitise = true);
 		}
-		
-		# Compile the HTML
-		$html = application::htmlUl ($members, 0, NULL, true, $sanitise = true);
 		
 		# Return the HTML
 		return $html;
