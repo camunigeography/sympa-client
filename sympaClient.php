@@ -151,7 +151,7 @@ class sympaClient
 	
 	# Function to get list members
 	# https://www.sympa.community/manual/customize/soap-api.html#review
-	public function review ($listname)
+	public function review ($listname, $names = array ())
 	{
 		# Get the data
 		$parameters = array ($listname);
@@ -163,8 +163,17 @@ class sympaClient
 			return $html;
 		}
 		
+		# Attach names, if provided; the Sympa API itself does not return the name strings, but we already have most of them anyway
+		if ($names) {
+			foreach ($members as $index => $email) {
+				if (isSet ($names[$email])) {
+					$members[$index] = $names[$email] . ' <' . $email . '>';
+				}
+			}
+		}
+		
 		# Compile the HTML
-		$html = application::htmlUl ($members);
+		$html = application::htmlUl ($members, 0, NULL, true, $sanitise = true);
 		
 		# Return the HTML
 		return $html;
@@ -289,7 +298,7 @@ class sympaClient
 		# Confirm list
 		sleep ($this->sleepSeconds);
 		$html .= "\n<p>The list of members is now:</p>";
-		$html .= $this->review ($listname);
+		$html .= $this->review ($listname, $users);
 		
 		# Return the HTML
 		return $html;
