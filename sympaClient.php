@@ -33,9 +33,9 @@ class sympaClient
 		$this->addNamesSuffix = $addNamesSuffix;
 		
 		# Create the client
-		$this->connection = new SoapClient ($soapServer);
-		$this->connection->debug_flag = true;
 		try {
+			$this->connection = new SoapClient ($soapServer);
+			$this->connection->debug_flag = true;
 			$this->md5Token = $this->connection->login ($email, $password);
 		} catch (SoapFault $e) {
 			$errorString = $e->faultstring . (isSet ($e->detail) ? ': ' . $e->detail : '');
