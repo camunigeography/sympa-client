@@ -204,14 +204,21 @@ class sympaClient
 	# https://www.sympa.community/manual/customize/soap-api.html#add
 	public function add ($listname, $email, $gecos /* name */ = false, $quiet = false)
 	{
+		# Start the HTML
+		$html = '';
+		
 		# Get the data
 		$parameters = array ($listname, $email, $gecos . ($gecos ? ' ' . $this->addNamesSuffix : ''), $quiet);
 		$result = $this->getData (__FUNCTION__, $parameters);
 		
 		# End if none
-		#!# Actually fails with : "Fatal error: Uncaught SoapFault exception: [soap:Server] Undef in /websites/common/php/sympaClient.php on line 48", "SoapFault: Undef in /websites/common/php/sympaClient.php on line 48"
+		#!# Actually fails with : "Fatal error: Uncaught SoapFault exception: [soap:Server] Undef in sympaClient.php on line 48", "SoapFault: Undef in sympaClient.php on line 48"
 		if (!$result) {
-			$html = "\n<p>Failed adding user {$email}.</p>";
+			$errorString = "Failed adding user {$email}.";
+			$html = "\n<p>" . htmlspecialchars ($errorString) . '</p>';
+			if ($this->echoErrors) {
+				echo 'ERROR: ' . $errorString;
+			}
 			return $html;
 		}
 		
@@ -240,9 +247,13 @@ class sympaClient
 		$result = $this->getData (__FUNCTION__, $parameters);
 		
 		# End if none
-		#!# Actually fails with : "Fatal error: Uncaught SoapFault exception: [soap:Server] Undef in /websites/common/php/sympaClient.php on line 48", "SoapFault: Undef in /websites/common/php/sympaClient.php on line 48"
+		#!# Actually fails with : "Fatal error: Uncaught SoapFault exception: [soap:Server] Undef in sympaClient.php on line 48", "SoapFault: Undef in sympaClient.php on line 48"
 		if (!$result) {
-			$html = "\n<p>Failed deleting user {$email}.</p>";
+			$errorString = "Failed deleting user {$email}.";
+			$html = "\n<p>" . htmlspecialchars ($errorString) . '</p>';
+			if ($this->echoErrors) {
+				echo 'ERROR: ' . $errorString;
+			}
 			return $html;
 		}
 		
@@ -298,7 +309,11 @@ class sympaClient
 		$currentEmails = $this->getData ('review', $parameters, false, $errorString /* returned by reference */);
 		sleep ($this->sleepSeconds);
 		if ($errorString) {
-			$html = "\n" . '<p class="warning">' . $errorString . '</p>';
+			$errorString .= '.';
+			$html = "\n" . '<p class="warning">' . htmlspecialchars ($errorString) . '</p>';
+			if ($this->echoErrors) {
+				echo 'ERROR: ' . $errorString;
+			}
 			return $html;
 		}
 		
