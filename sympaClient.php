@@ -24,12 +24,13 @@ class sympaClient
 	
 	
 	# Constructor
-	public function __construct ($soapServer, $email, $password, $baseUrl = './', $sympaDomainInScope = false /* e.g. '@example.com' */, $addNamesSuffix = '[Auto-maintained]')
+	public function __construct ($soapServer, $email, $password, $baseUrl = './', $sympaDomainInScope = false /* e.g. '@example.com' */, $displayErrors = true, $addNamesSuffix = '[Auto-maintained]')
 	{
 		# Register properties
 		$this->email = $email;
 		$this->baseUrl = $baseUrl;
 		$this->sympaDomainInScope = $sympaDomainInScope;
+		$this->displayErrors = $displayErrors;
 		$this->addNamesSuffix = $addNamesSuffix;
 		
 		# Create the client
@@ -40,7 +41,9 @@ class sympaClient
 		} catch (SoapFault $e) {
 			$errorString = $e->faultstring . (isSet ($e->detail) ? ': ' . $e->detail : '');
 			$this->errors[] = $errorString;
-			echo "\n" . '<p class="warning">' . $errorString . '</p>';
+			if ($this->displayErrors) {
+				echo "\n" . '<p class="warning">' . $errorString . '</p>';
+			}
 			return false;
 		}
 		
@@ -72,7 +75,9 @@ class sympaClient
 			//var_dump ($e);
 			$errorString = $e->faultstring . ': ' . (isSet ($e->detail) ? ': ' . $e->detail : '');
 			$this->errors[] = $errorString;
-			echo "\n" . '<p class="warning">' . $errorString . '</p>';
+			if ($this->displayErrors) {
+				echo "\n" . '<p class="warning">' . $errorString . '</p>';
+			}
 			return false;
 		}
 		//var_dump ($data);
