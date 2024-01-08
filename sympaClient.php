@@ -42,7 +42,7 @@ class sympaClient
 			$errorString = $e->faultstring . (isSet ($e->detail) ? ': ' . $e->detail : '');
 			$this->errors[] = $errorString;
 			if ($this->echoErrors) {
-				echo 'ERROR: ' . $errorString;
+				echo "\n" . 'ERROR: ' . $errorString;
 			}
 			return false;
 		}
@@ -76,7 +76,7 @@ class sympaClient
 			$errorString = $e->faultstring . ': ' . (isSet ($e->detail) ? ': ' . $e->detail : '');
 			$this->errors[] = $errorString;
 			if ($this->echoErrors) {
-				echo 'ERROR: ' . $errorString;
+				echo "\n" . 'ERROR: ' . $errorString;
 			}
 			return false;
 		}
@@ -217,7 +217,7 @@ class sympaClient
 			$errorString = "Failed adding user {$email}.";
 			$html = "\n<p>" . htmlspecialchars ($errorString) . '</p>';
 			if ($this->echoErrors) {
-				echo 'ERROR: ' . $errorString;
+				echo "\n" . 'ERROR: ' . $errorString;
 			}
 			return $html;
 		}
@@ -252,7 +252,7 @@ class sympaClient
 			$errorString = "Failed deleting user {$email}.";
 			$html = "\n<p>" . htmlspecialchars ($errorString) . '</p>';
 			if ($this->echoErrors) {
-				echo 'ERROR: ' . $errorString;
+				echo "\n" . 'ERROR: ' . $errorString;
 			}
 			return $html;
 		}
@@ -312,7 +312,7 @@ class sympaClient
 			$errorString .= '.';
 			$html = "\n" . '<p class="warning">' . htmlspecialchars ($errorString) . '</p>';
 			if ($this->echoErrors) {
-				echo 'ERROR: ' . $errorString;
+				echo "\n" . 'ERROR: ' . $errorString;
 			}
 			return $html;
 		}
