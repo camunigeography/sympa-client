@@ -161,7 +161,10 @@ class sympaClient
 	{
 		# Get the data
 		$parameters = array ($listname);
-		$members = $this->getData (__FUNCTION__, $parameters);
+		if (!$members = $this->getData (__FUNCTION__, $parameters)) {
+			$html = "\n<p>Could not get the list of subscribers.</p>";
+			return $html;
+		}
 		
 		# End if none
 		if ($members[0] == 'no_subscribers') {
