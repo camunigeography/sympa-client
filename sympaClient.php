@@ -42,7 +42,7 @@ class sympaClient
 			$errorString = $e->faultstring . (isSet ($e->detail) ? ': ' . $e->detail : '');
 			$this->errors[] = $errorString;
 			if ($this->echoErrors) {
-				echo "\n" . 'ERROR: ' . $errorString;
+				echo "\n" . 'ERROR (initial connection): ' . $errorString;
 			}
 			return false;
 		}
@@ -76,7 +76,7 @@ class sympaClient
 			$errorString = $e->faultstring . ': ' . (isSet ($e->detail) ? ': ' . $e->detail : '');
 			$this->errors[] = $errorString;
 			if ($this->echoErrors) {
-				echo "\n" . 'ERROR: ' . $errorString;
+				echo "\n" . 'ERROR (getData): ' . $errorString;
 			}
 			return false;
 		}
@@ -217,10 +217,10 @@ class sympaClient
 		# End if none
 		#!# Actually fails with : "Fatal error: Uncaught SoapFault exception: [soap:Server] Undef in sympaClient.php on line 48", "SoapFault: Undef in sympaClient.php on line 48"
 		if (!$result) {
-			$errorString = "Failed adding user {$email}.";
+			$errorString = "Failed adding user {$email} to list {$listname}.";
 			$html = "\n<p>" . htmlspecialchars ($errorString) . '</p>';
 			if ($this->echoErrors) {
-				echo "\n" . 'ERROR: ' . $errorString;
+				echo "\n" . 'ERROR (add): ' . $errorString;
 			}
 			return $html;
 		}
@@ -255,7 +255,7 @@ class sympaClient
 			$errorString = "Failed deleting user {$email}.";
 			$html = "\n<p>" . htmlspecialchars ($errorString) . '</p>';
 			if ($this->echoErrors) {
-				echo "\n" . 'ERROR: ' . $errorString;
+				echo "\n" . 'ERROR (del): ' . $errorString;
 			}
 			return $html;
 		}
@@ -315,7 +315,7 @@ class sympaClient
 			$errorString .= '.';
 			$html = "\n" . '<p class="warning">' . htmlspecialchars ($errorString) . '</p>';
 			if ($this->echoErrors) {
-				echo "\n" . 'ERROR: ' . $errorString;
+				echo "\n" . 'ERROR (_updateMembers): ' . $errorString;
 			}
 			return $html;
 		}
