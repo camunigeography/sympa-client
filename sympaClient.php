@@ -220,7 +220,7 @@ class sympaClient
 			$errorString = "Failed adding user {$email} to list {$listname}.";
 			$html = "\n<p>" . htmlspecialchars ($errorString) . '</p>';
 			if ($this->echoErrors) {
-				echo "\n" . 'ERROR (add): ' . $errorString;
+				echo "\n" . "ERROR ({$listname} add): " . $errorString;
 			}
 			return $html;
 		}
@@ -255,7 +255,7 @@ class sympaClient
 			$errorString = "Failed deleting user {$email}.";
 			$html = "\n<p>" . htmlspecialchars ($errorString) . '</p>';
 			if ($this->echoErrors) {
-				echo "\n" . 'ERROR (del): ' . $errorString;
+				echo "\n" . "ERROR ({$listname} del): " . $errorString;
 			}
 			return $html;
 		}
@@ -315,7 +315,7 @@ class sympaClient
 			$errorString .= '.';
 			$html = "\n" . '<p class="warning">' . htmlspecialchars ($errorString) . '</p>';
 			if ($this->echoErrors) {
-				echo "\n" . 'ERROR (_updateMembers): ' . $errorString;
+				echo "\n" . "ERROR ({$listname} _updateMembers): " . $errorString;
 			}
 			return $html;
 		}
