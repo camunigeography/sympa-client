@@ -1,0 +1,13 @@
+{
+    "name": "camunigeography/sympa-client",
+    "description": "Simple PHP library to interface with a Sympa list server",
+    "type": "library",
+    "license": "GPL-3.0-only",
+    "minimum-stability": "stable",
+    "require": {
+        "libpurecontent/application": "^1.9"
+    },
+    "autoload": {
+        "psr-0": {"sympaClient": "src/"}
+    }
+}

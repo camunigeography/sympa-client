@@ -116,7 +116,6 @@ class sympaClient
 		}
 		
 		# Compile the HTML
-		require_once ('application.php');
 		$html = application::htmlUl ($listsHtml);
 		
 		# Return the HTML

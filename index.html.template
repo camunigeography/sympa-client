@@ -19,6 +19,7 @@ $users = array (
 
 
 # Perform the update
+require_once ('vendor/autoload.php');
 $sympaClient = new sympaClient ($email, $password, $soapServer);
 $html = $sympaClient->_updateMembers ($listname, $users);
 echo $html;
