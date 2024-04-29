@@ -239,7 +239,7 @@ class sympaClient
 		# Ensure the e-mail to be deleted is in scope, if required
 		if ($this->sympaDomainInScope) {
 			if (!str_ends_with ($email, $this->sympaDomainInScope)) {
-				$html = "\n<p>Notice: {$email} is out of scope from automated management, and so is not deleted.</p>";
+				$html = "\n<p>Notice: {$email} is out of scope from automated management, and so is retained as a manual entry.</p>";
 				return $html;
 			}
 		}
