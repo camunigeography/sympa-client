@@ -20,7 +20,8 @@ class sympaClient
 	private $email;
 	private $md5Token;
 	private $errors = array ();
-	private $sleepSeconds = 5;
+	private $sleepSeconds = 2;
+	private $previousRequest = false;
 	
 	
 	# Constructor
@@ -68,6 +69,12 @@ class sympaClient
 	# Function to get data
 	private function getData ($function, $parameters = array (), $isSingular = false, &$errorString = false)
 	{
+		# Wait (if there was a previous request), to avoid excessive load
+		if ($this->previousRequest) {
+			sleep ($this->sleepSeconds);
+		}
+		$this->previousRequest = true;
+		
 		# Get data; see: https://www.sympa.community/manual/customize/soap-api.html
 		try {
 			$data = $this->connection->authenticateAndRun ($this->email, $this->md5Token, $function, $parameters);
@@ -309,7 +316,6 @@ class sympaClient
 		#!# Use ->review() internally
 		$parameters = array ($listname);
 		$currentEmails = $this->getData ('review', $parameters, false, $errorString /* returned by reference */);
-		sleep ($this->sleepSeconds);
 		if ($errorString) {
 			$errorString .= '.';
 			$html = "\n" . '<p class="warning">' . htmlspecialchars ($errorString) . '</p>';
@@ -333,7 +339,6 @@ class sympaClient
 		}
 		
 		# Confirm list
-		sleep ($this->sleepSeconds);
 		$html .= "\n<p>The list of members is now:</p>";
 		$html .= $this->review ($listname, $users);
 		
